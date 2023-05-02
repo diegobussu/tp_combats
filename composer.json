@@ -1,0 +1,7 @@
+{
+    "require": {
+        "twig/twig": "^3.0",
+        "symfony/twig-bridge": "^5.4",
+        "symfony/asset": "^5.4"
+    }
+}

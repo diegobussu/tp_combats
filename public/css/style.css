@@ -1,0 +1,14 @@
+.mt-5 {
+    margin-top: 5rem!important;
+}
+
+.selected {
+    border: 2px solid #aaa;
+}
+
+.card {
+    background-color: #eee;
+}
+.card-body {
+    background-color: #ffffff;
+}

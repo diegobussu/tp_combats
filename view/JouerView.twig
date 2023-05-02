@@ -1,0 +1,73 @@
+{% extends 'Pagelayout.twig' %}
+
+{%  block body %}
+
+    {% if message is defined %}
+    <div class="row mb-2">
+        <div class="col-12">
+            <div class="mess">
+                {{ message|raw }}
+            </div>
+        </div>
+    </div>
+    {%  endif %}
+
+    <div class="row">
+        <div class="col-6">
+            <h5>Choisir un personnage</h5>
+
+            {% if listAllPerso is defined %}
+            <table class="table">
+                <tbody>
+                {% for perso in listAllPerso %}
+                {% set sel = app.request.id == perso.id ? 'selected' : '' %}
+                <tr class="{{ sel }}">
+                    <th scope="row">{{ perso.id }}</th>
+                    </td><td><a class="persoName" href="{{ pathRoot ~ 'jouer/utiliser/id/' ~ perso.id }}">{{ perso.nom }}</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+
+
+        {% if usedPerso is defined %}
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Information joueur</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ usedPerso.nom|striptags }}</p>
+
+                    <p class="card-text">Dégats :  {{ usedPerso.degats }}</p>
+                    <p class="card-text">Expérience : {{ usedPerso.experience }} ({{ usedPerso.getLimitExp() }}) </p>
+                    <p class="card-text">Niveau : {{ usedPerso.niveau }}</p>
+                </div>
+            </div>
+
+        </div>
+        {% endif %}
+
+    </div>
+    {%  if listPersoToHit is defined %}
+
+    <div class="row mt-4">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Qui frapper ?</h5>
+                </div>
+                <div class="card-body">
+                    {% for persoToHit in listPersoToHit %}
+                    <a href="{{ pathRoot ~ 'jouer/frapper/idhit/' ~ persoToHit.id }}">{{ persoToHit.nom }}</a> ( dégâts : {{ persoToHit.degats }}, expériences : {{ persoToHit.experience }} )
+                    <br/>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+{%  endblock %}

@@ -1,0 +1,64 @@
+{% extends 'Pagelayout.twig' %}
+
+{%  block body %}
+    {% if error is defined and error %}
+        <div class="row">
+            <div class="col-12">
+                <p class="alert-danger p-2">{{ message }}</p>
+            </div>
+        </div>
+    {% elseif message is defined %}
+        <div class="row">
+            <div class="col-12">
+                <p class="alert-info p-2">{{ message }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+
+    <div class="row">
+        <div class="col-6">
+            <h5>Liste des personnages</h5>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Supp.</th>
+                    <th scope="col">Personnage</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for perso in listAllPerso %}
+                    {% set sel = app.request == perso.id ? 'seleted' : '' %}
+                    <tr class="{{ sel }}">
+                        <th scope="row">{{ perso.id }}</th>
+                        <td><a href="{{ pathRoot ~ 'personnages/delete/id/' ~ perso.id }}">x</a></td>
+                        <td><a class="persoName" href="{{ pathRoot ~ 'personnages/update/id/' ~ perso.id }}">{{ perso.nom }}</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <h5>Ajouter ou modifier un personnage</h5>
+            {%  set actionCall = action is defined ? action : 'create' %}
+            {%  set persoAModifier = nom is defined ? nom : '' %}
+            {%  set idPerso = id is defined ? id : 0 %}
+            <form class="row g-3" method="post" action="{{ pathRoot ~ 'personnages' }}">
+                <div class="col-auto">
+                    {% if idPerso %}
+                    <input type="hidden" value="{{ idPerso }}" name="id">
+                    {% endif %}
+                    <input type="hidden" value="{{ actionCall }}" name="action">
+                    <input type="text" class="form-control" name="nom" placeholder="Entrer un nom" value="{{ persoAModifier }}">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3" name="ok">Ok</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+{% endblock %}
